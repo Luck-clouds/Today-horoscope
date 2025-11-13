@@ -1,13 +1,14 @@
 const express = require("express");
 const app = express();
 const LunarCalendar = require("lunar-calendar");
+// 端口3000
 const PORT = process.env.PORT || 3000;
-// IP限流存储
+// IP限流设置
 const BLOCK_DURATION = 5 * 60 * 1000; // 5分钟封禁
-const MAX_REQUESTS_PER_MINUTE = 1; // 每分钟最大请求数
+const MAX_REQUESTS_PER_MINUTE = 50; // 每分钟最大请求数
 const WINDOW_MS = 60 * 1000; // 1分钟窗口
 
-// 预定义的消息数组
+// 预定义的消息数组 可以仿格式自定义 随便写也行记得用{},框住
 // 塔罗牌
 const tarot = [
   {
@@ -1175,7 +1176,7 @@ function rateLimit(req, res, next) {
     return res.status(429).json({
       code: 429,
       status: "访问过于频繁喵",
-      error: `您的IP已被暂时限制访问，请${remainingTime}分钟后再试`,
+      error: `您的IP已被暂时限制访问，请${remainingTime}分钟后再试喵`,
       retryAfter: remainingTime,
     });
   }
@@ -1193,8 +1194,8 @@ function rateLimit(req, res, next) {
 
     return res.status(429).json({
       code: 429,
-      status: "访问过于频繁",
-      error: "您的请求过于频繁，IP已被暂时限制访问，请15分钟后再试",
+      status: "访问过于频繁喵",
+      error: "您的请求过于频繁，IP已被暂时限制访问，请5分钟后再试",
       retryAfter: 15,
     });
   }
@@ -1216,7 +1217,7 @@ function getClientIP(req) {
   );
 }
 
-// 时间与日期
+// 时间与日期 本来想优化代码来着但是突然忙起来了就鸽掉吧
 
 function date() {
   const now = new Date();
@@ -1281,6 +1282,7 @@ function lunarData(date) {
   }
 }
 
+// 农历信息格式化
 function formatLunar(lunarData) {
   return `${lunarData.ganZhiYear}年${lunarData.zodiac} ${lunarData.ganZhiMonth} ${lunarData.ganZhiDay} 农历${lunarData.lunarMonth}${lunarData.lunarDay} ${lunarData.solarTerm}`;
 }
@@ -1358,7 +1360,7 @@ app.get("/api/date", (req, res) => {
     const responseData = {
       code: 200,
       success: true,
-      status: "成功",
+      status: "成功喵",
       message: "欢迎访问喵",
       timestamp: Date.now(),
 
