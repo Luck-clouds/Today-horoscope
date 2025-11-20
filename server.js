@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const os = require("os");
 const LunarCalendar = require("lunar-calendar");
 // 端口3000
 const PORT = process.env.PORT || 3000;
@@ -1239,6 +1240,34 @@ function date() {
   return date;
 }
 
+//获取本机信息，输出信息
+function systemMonitor() {
+  console.log("=== 系统监控 ===");
+  console.log(`操作系统: ${os.type()} ${os.release()}`);
+  console.log(`CPU 架构: ${os.arch()}`);
+  console.log(`CPU 核心数: ${os.cpus().length}`);
+  console.log(`总内存: ${(os.totalmem() / 1024 / 1024).toFixed(2)} MB`);
+  console.log(`可用内存: ${(os.freemem() / 1024 / 1024).toFixed(2)} MB`);
+  console.log(`系统运行时间: ${(os.uptime() / 60 / 60).toFixed(2)} 小时`);
+  console.log(                                                              );
+  
+}
+
+// 获取本机ip，用于打印log
+function getLocalIP() {
+  const interfaces = os.networkInterfaces();
+  for (const interfaceName in interfaces) {
+    for (const iface of interfaces[interfaceName]) {
+      if (iface.family === "IPv4" && !iface.internal) {
+        return iface.address;
+      }
+    }
+  }
+  return "127.0.0.1";
+}
+
+systemMonitor();
+
 // 获取详细农历信息 仅支持到2100年
 function lunarData(date) {
   try {
@@ -1418,5 +1447,6 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(`服务器运行在 http://localhost:${PORT}`);
   console.log(`API端点: http://localhost:${PORT}/api/date`);
-  console.log(`健康检查: http://localhost:${PORT}/health`);
+  console.log(`稳定性自检: http://localhost:${PORT}/health`);
+  console.log(`局域网地址: ${getLocalIP()}:3000/api/date`);
 });

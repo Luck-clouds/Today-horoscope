@@ -1,8 +1,8 @@
 {
   "name": "api",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "基于node.js的运势查询api",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
@@ -10,12 +10,13 @@
   },
   "dependencies": {
     "express": "^4.18.2",
-    "lunar-calendar": "^0.1.4"
+    "lunar-calendar": "^0.1.4",
+    "os": "^0.1.2"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Luck-Clouds",
   "license": "ISC"
 }
